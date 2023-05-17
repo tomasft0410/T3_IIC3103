@@ -24,11 +24,21 @@ cur.execute("SELECT * FROM transactions")
 # Obtener los resultados
 result = cur.fetchall()
 
+
+
+
 @app.route('/')
 def hello_world():
+    # crear html con los datos de la base de datos
+    return 'Hello, World!'
+
+
+@app.route('/dashboard', methods=['GET'])
+def receive_message():
     # Preparar los resultados
     data_show = []
     data_show.append(len(result))
+
 
     transacciones = []
     envios = 0
@@ -138,7 +148,10 @@ def hello_world():
                     saldos.remove(saldo2)
                 elif monto_2 > monto_1: 
                     saldo[2] = monto_2 - monto_1
-                    saldos.remove(saldo)
+                    saldos.remove(saldo2)
+
+
+
 
     # Definir las constantes de los intervalos
     INTERVALOS = [
@@ -191,13 +204,8 @@ def hello_world():
     # Seleccionar las ultimas 100 transacciones
     transacciones = transacciones[-100:]
     data_show.append(transacciones)
-    # crear html con los datos de la base de datos
-    return render_template('dashboard.html', data_show=data_show, saldos=saldos)
 
-
-@app.route('/dashboard', methods=['GET'])
-def receive_message():
-    pass
+    return render_template("dashboard.html", data_show=data_show, saldos=saldos)
 
 if __name__ == '__main__':
     app.run(port=3000, debug=True)
