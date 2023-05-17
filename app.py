@@ -184,7 +184,7 @@ def receive_message():
 
     grupos = agrupar_transacciones(transacciones)
 
-    ax = plt.subplots(figsize=(8, 5))
+    fig, ax = plt.subplots(figsize=(8, 5))
     ax.bar(grupos.keys(), grupos.values(), color='lightblue')
     ax.set_title('Cantidad de transacciones por intervalo de monto')
     ax.set_xlabel('Intervalo de monto')
