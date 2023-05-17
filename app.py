@@ -4,6 +4,7 @@ import base64
 import matplotlib.pyplot as plt
 import os
 
+
 app = Flask(__name__)
 
 # Establecer la conexión con la base de datos
@@ -15,18 +16,6 @@ conn = psycopg2.connect(
     password="xAWB2QRSpEHvMegV"
 )
 
-# Crear un cursor para ejecutar comandos
-cur = conn.cursor()
-
-# Ejecutar un comando SQL
-cur.execute("SELECT * FROM transactions")
-
-# Obtener los resultados
-result = cur.fetchall()
-
-
-
-
 @app.route('/')
 def hello_world():
     # crear html con los datos de la base de datos
@@ -35,10 +24,18 @@ def hello_world():
 
 @app.route('/dashboard', methods=['GET'])
 def receive_message():
+    # Crear un cursor para ejecutar comandos
+    cur = conn.cursor()
+
+    # Ejecutar un comando SQL
+    cur.execute("SELECT * FROM transactions")
+
+    # Obtener los resultados
+    result = cur.fetchall()
+
     # Preparar los resultados
     data_show = []
     data_show.append(len(result))
-
 
     transacciones = []
     envios = 0
@@ -187,7 +184,7 @@ def receive_message():
 
     grupos = agrupar_transacciones(transacciones)
 
-    fig, ax = plt.subplots(figsize=(8, 5))
+    ax = plt.subplots(figsize=(8, 5))
     ax.bar(grupos.keys(), grupos.values(), color='lightblue')
     ax.set_title('Cantidad de transacciones por intervalo de monto')
     ax.set_xlabel('Intervalo de monto')
