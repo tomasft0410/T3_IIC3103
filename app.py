@@ -130,25 +130,29 @@ def receive_message():
             saldo = deuda_origen[banco][banco2]
             if saldo > 0:
                 saldos.append([banco, banco2, saldo])
+    for banco in deuda_destino:
+        for banco2 in deuda_destino[banco]:
+            saldo = deuda_destino[banco][banco2]
+            if saldo > 0:
+                saldos.append([banco, banco2, saldo])
 
     for saldo in saldos:
-        banco_origen_1 = saldo[0] # bice
-        banco_destino_1 = saldo[1] # bci
+        banco_origen_1 = saldo[0]
+        banco_destino_1 = saldo[1]
         monto_1 = saldo[2] 
         for saldo2 in saldos:
             banco_origen_2 = saldo2[0]
-            banco_destino_2 = saldo2[1] 
-            monto_2 = saldo2[2] 
-            if banco_origen_1 == banco_destino_2 and banco_destino_1 == banco_origen_2:
-                if monto_1 > monto_2: 
-                    saldo[2] = monto_1 - monto_2 
+            banco_destino_2 = saldo2[1]
+            monto_2 = saldo2[2]
+            if banco_origen_1 == banco_destino_2 and banco_origen_2 == banco_destino_1:
+                if monto_1 > monto_2:
+                    saldo[2] = monto_1 - monto_2
                     saldos.remove(saldo2)
-                elif monto_2 > monto_1: 
+                elif monto_2 > monto_1:
                     saldo[2] = monto_2 - monto_1
                     saldos.remove(saldo2)
-
-
-
+                else:
+                    saldos.remove(saldo2)
 
     # Definir las constantes de los intervalos
     INTERVALOS = [
@@ -171,19 +175,7 @@ def receive_message():
                     break
         return grupos
 
-    # def filtrar_transacciones(transacciones, banco_origen, banco_destino):
-    #     # Filtrar por banco de origen
-    #     if banco_origen:
-    #         transacciones = [t for t in transacciones if t[2] == banco_origen]
-    #     # Filtrar por banco de destino
-    #     if banco_destino:
-    #         transacciones = [t for t in transacciones if t[4] == banco_destino]
-    #     return transacciones
-
-    # transacciones_filtradas = filtrar_transacciones(transacciones, banco_origen, banco_destino)
-
     grupos = agrupar_transacciones(transacciones)
-
     fig, ax = plt.subplots(figsize=(8, 5))
     ax.bar(grupos.keys(), grupos.values(), color='lightblue')
     ax.set_title('Cantidad de transacciones por intervalo de monto')
