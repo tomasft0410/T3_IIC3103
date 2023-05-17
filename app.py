@@ -134,7 +134,7 @@ def receive_message():
         for banco2 in deuda_destino[banco]:
             saldo = deuda_destino[banco][banco2]
             if saldo > 0:
-                saldos.append([banco, banco2, saldo])
+                saldos.append([banco2, banco, saldo])
 
     for saldo in saldos:
         banco_origen_1 = saldo[0]
