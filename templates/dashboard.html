@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #dee6e6;  /* Fondo de color azul claro */
+            width: 90%;
+            margin-left: 5%;
+            margin-right: 5%;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            align-items: center;
+        }
+
+        img {
+            width: 50%;
+            margin-left: 25%;
+            margin-right: 25%;
+            margin-bottom: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        h2 {
+            color: #666;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 80%;
+            margin-left: 10%;
+            margin-right: 10%;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        .table1 tr:nth-child(even), .table2 tr:nth-child(even) {
+            background-color: #d0d0d0;
+        }
+
+        .table1 tr:hover, .table2 tr:hover {
+            background-color: #bdbdbd;
+        }
+
+        .table1 th {
+            background-color: #3B5998;
+            color: white;
+        }
+
+        .table2 th {
+            background-color: rgb(4, 2, 109);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <h1>Resumen de Transacciones</h1>
+    <h2>Cantidad Total de Transacciones: {{ data_show[0] }}</h2>
+    <h2>Cantidad de Transacciones de Envio de Fondos: {{ data_show[1][0] }}, Monto Total: {{ data_show[1][1] }}</h2>
+    <h2>Cantidad de Transacciones de Recepcion de Fondos: {{ data_show[2][0] }}, Monto Total: {{ data_show[2][1] }}</h2>
+    <h2>Histograma</h2>
+    <img src="{{ url_for('static', filename='histograma.png') }}">
+    <h2>Desgloce de las ultimas 100 Transacciones</h1>
+    <table class="table1">
+        <tr>
+            <th>ID</th>
+            <th>Tipo</th>
+            <th>Banco Origen</th>
+            <th>Cuenta Origen</th>
+            <th>Banco Destino</th>
+            <th>Cuenta Destino</th>
+            <th>Monto</th>
+            <th>Fecha</th>
+        </tr>
+        {% for data in data_show[3] %}
+        <!-- Agregar indice de transaccion -->
+        <tr>
+            <td>{{ data[0] }}</td>
+            <td>{{ data[1] }}</td>
+            <td>{{ data[2] }}</td>
+            <td>{{ data[3] }}</td>
+            <td>{{ data[4] }}</td>
+            <td>{{ data[5] }}</td>
+            <td>{{ data[6] }}</td>
+            <td>{{ data[7] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <h2>Desgloce de conciliaciones</h1>
+    <table class="table1">
+        <tr>
+            <th>Banco Origen</th>
+            <th>Banco Destino</th>
+            <th>Monto</th>
+        </tr>
+        {% for data in saldos %}
+        <tr>
+            <td>{{ data[0] }}</td>
+            <td>{{ data[1] }}</td>
+            <td>{{ data[2] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
