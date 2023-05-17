@@ -194,10 +194,6 @@ plt.savefig(nombre_archivo)
 transacciones = transacciones[-100:]
 data_show.append(transacciones)
 
-# Cerrar la conexión
-conn.close()
-cur.close()
-
 
 @app.route('/')
 def hello_world():
