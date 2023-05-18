@@ -153,6 +153,9 @@ def receive_message():
                     saldos.remove(saldo2)
                 else:
                     saldos.remove(saldo2)
+    
+    # Ordenar la lista de saldos
+    saldos.sort(key=lambda x: x[0], reverse=False)
 
     # Definir las constantes de los intervalos
     INTERVALOS = [
